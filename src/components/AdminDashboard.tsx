@@ -63,6 +63,7 @@ interface AdminDashboardProps {
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onLogout = () => {},
 }) => {
+  // Initialize state with error handling
   const [cars, setCars] = useState<Car[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -404,84 +405,96 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-white sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <h1 className="text-2xl font-bold text-gradient">
+        <div className="mobile-container mobile-header">
+          <div className="mobile-admin-header">
+            <div className="flex items-center gap-2 sm:gap-4 md:gap-8">
+              <h1 className="mobile-admin-title text-gradient">
                 لوحة تحكم الإدارة
               </h1>
-              <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
+              <nav className="hidden lg:flex items-center space-x-4 space-x-reverse">
                 <a
                   href="/"
-                  className="text-sm font-medium hover:text-primary transition-colors"
+                  className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
                 >
                   العودة للموقع
                 </a>
               </nav>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="mobile-admin-actions">
               <Button
                 variant="outline"
                 onClick={fetchCars}
-                className="flex items-center gap-2 luxury-card"
+                className="flex items-center gap-2 luxury-card px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base shadow-md hover:shadow-lg"
                 disabled={isLoading}
               >
                 <RefreshCw
-                  className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+                  className={`h-4 w-4 sm:h-5 sm:w-5 ${isLoading ? "animate-spin" : ""}`}
                 />
-                تحديث
+                <span className="hidden sm:inline">تحديث</span>
               </Button>
               <Button
                 onClick={handleAddCar}
-                className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg hover:shadow-xl"
               >
-                <Plus className="h-4 w-4" />
-                إضافة سيارة جديدة
+                <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden md:inline">إضافة سيارة جديدة</span>
+                <span className="md:hidden">إضافة</span>
               </Button>
               <Button
                 variant="destructive"
                 onClick={onLogout}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base shadow-md hover:shadow-lg"
               >
-                <LogOut className="h-4 w-4" />
-                تسجيل الخروج
+                <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden md:inline">تسجيل الخروج</span>
+                <span className="md:hidden">خروج</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="mobile-admin-content py-2 sm:py-4 md:py-6 lg:py-8">
         {error && (
-          <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-center">
+          <div className="mb-3 sm:mb-4 md:mb-6 p-2 sm:p-3 md:p-4 bg-destructive/10 border border-destructive/20 rounded-md sm:rounded-lg text-destructive text-center text-xs sm:text-sm md:text-base">
             {error}
           </div>
         )}
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="luxury-card p-8 rounded-xl text-center animate-fade-in">
-              <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-              <span className="text-lg font-medium">
+          <div className="flex items-center justify-center py-6 sm:py-8 md:py-12">
+            <div className="luxury-card p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl text-center animate-fade-in">
+              <RefreshCw className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 animate-spin text-primary mx-auto mb-2 sm:mb-3 md:mb-4" />
+              <span className="text-sm sm:text-base md:text-lg font-medium">
                 جاري تحميل البيانات...
               </span>
             </div>
           </div>
         ) : (
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-5 mb-8">
-              <TabsTrigger value="overview">نظرة عامة</TabsTrigger>
-              <TabsTrigger value="cars">إدارة السيارات</TabsTrigger>
-              <TabsTrigger value="members">إدارة الأعضاء</TabsTrigger>
-              <TabsTrigger value="telecom">روابط الاتصالات</TabsTrigger>
-              <TabsTrigger value="analytics">الإحصائيات</TabsTrigger>
+            <TabsList className="mobile-admin-tabs">
+              <TabsTrigger value="overview" className="text-xs sm:text-sm">
+                نظرة عامة
+              </TabsTrigger>
+              <TabsTrigger value="cars" className="text-xs sm:text-sm">
+                السيارات
+              </TabsTrigger>
+              <TabsTrigger value="members" className="text-xs sm:text-sm">
+                الأعضاء
+              </TabsTrigger>
+              <TabsTrigger value="telecom" className="text-xs sm:text-sm">
+                الاتصالات
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="text-xs sm:text-sm">
+                الإحصائيات
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="luxury-card card-hover">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
+            <TabsContent value="overview" className="mobile-admin-tab-content">
+              <div className="mobile-stats-grid">
+                <Card className="mobile-admin-overview-card">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
+                    <CardTitle className="mobile-admin-text font-medium">
                       إجمالي السيارات
                     </CardTitle>
                     <svg
@@ -492,24 +505,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
+                      className="mobile-admin-icon text-muted-foreground"
                     >
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                       <circle cx="9" cy="7" r="4" />
                       <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{cars.length}</div>
-                    <p className="text-xs text-muted-foreground">
+                  <CardContent className="pt-1 sm:pt-2">
+                    <div className="mobile-admin-stat-value">{cars.length}</div>
+                    <p className="mobile-admin-stat-label">
                       السيارات المتاحة في المخزون
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="luxury-card card-hover">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
+                <Card className="mobile-admin-overview-card">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
+                    <CardTitle className="mobile-admin-text font-medium">
                       متوسط السعر
                     </CardTitle>
                     <svg
@@ -520,27 +533,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
+                      className="mobile-admin-icon text-muted-foreground"
                     >
                       <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     </svg>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
+                  <CardContent className="pt-1 sm:pt-2">
+                    <div className="mobile-admin-stat-value">
                       {formatPrice(
                         cars.reduce((sum, car) => sum + car.price, 0) /
                           cars.length || 0,
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="mobile-admin-stat-label">
                       متوسط أسعار السيارات
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="luxury-card card-hover">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
+                <Card className="mobile-admin-overview-card">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
+                    <CardTitle className="mobile-admin-text font-medium">
                       أحدث إضافة
                     </CardTitle>
                     <svg
@@ -551,14 +564,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
+                      className="mobile-admin-icon text-muted-foreground"
                     >
                       <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
                     </svg>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">اليوم</div>
-                    <p className="text-xs text-muted-foreground">
+                  <CardContent className="pt-1 sm:pt-2">
+                    <div className="mobile-admin-stat-value">اليوم</div>
+                    <p className="mobile-admin-stat-label">
                       آخر سيارة تم إضافتها
                     </p>
                   </CardContent>
@@ -566,28 +579,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
 
               <Card className="luxury-card">
-                <CardHeader>
-                  <CardTitle>السيارات المضافة حديثاً</CardTitle>
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="mobile-admin-text font-bold">
+                    السيارات المضافة حديثاً
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                     {cars.slice(0, 3).map((car) => (
                       <div
                         key={car.id}
-                        className="luxury-card rounded-lg p-4 card-hover animate-fade-in"
+                        className="luxury-card rounded-md sm:rounded-lg p-2 sm:p-3 md:p-4 card-hover animate-fade-in"
                       >
                         <img
                           src={car.image}
                           alt={`${car.make} ${car.model}`}
-                          className="w-full h-32 object-cover rounded-md mb-2"
+                          className="w-full h-24 sm:h-28 md:h-32 object-cover rounded-sm sm:rounded-md mb-1 sm:mb-2"
                         />
-                        <h3 className="font-medium">
+                        <h3 className="text-xs sm:text-sm md:text-base font-medium">
                           {car.make} {car.model}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           {car.year}
                         </p>
-                        <p className="font-bold text-gradient">
+                        <p className="text-xs sm:text-sm md:text-base font-bold text-gradient">
                           {formatPrice(car.price)}
                         </p>
                       </div>
@@ -597,21 +612,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </Card>
             </TabsContent>
 
-            <TabsContent value="cars" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gradient">
-                  إدارة السيارات
-                </h2>
+            <TabsContent value="cars" className="mobile-admin-tab-content">
+              <div className="mobile-admin-section-header">
+                <h2 className="mobile-admin-section-title">إدارة السيارات</h2>
                 <Button
                   onClick={handleAddCar}
-                  className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                  className="mobile-admin-button bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
                 >
-                  <Plus className="h-4 w-4" />
-                  إضافة سيارة جديدة
+                  <Plus className="mobile-admin-icon" />
+                  <span className="hidden sm:inline">إضافة سيارة جديدة</span>
+                  <span className="sm:hidden">إضافة</span>
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="mobile-grid">
                 {cars.map((car) => (
                   <div key={car.id} className="relative">
                     <CarCard
@@ -647,22 +661,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
             </TabsContent>
 
-            <TabsContent value="members" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gradient">
-                  إدارة الأعضاء
-                </h2>
+            <TabsContent value="members" className="mobile-admin-tab-content">
+              <div className="mobile-admin-section-header">
+                <h2 className="mobile-admin-section-title">إدارة الأعضاء</h2>
                 <Button
                   onClick={fetchMembers}
                   variant="outline"
-                  className="flex items-center gap-2 luxury-card"
+                  className="mobile-admin-button luxury-card"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="mobile-admin-icon" />
                   تحديث
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="mobile-grid">
                 {members.map((member) => (
                   <Card
                     key={member.id}
@@ -759,22 +771,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               )}
             </TabsContent>
 
-            <TabsContent value="telecom" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gradient">
+            <TabsContent value="telecom" className="mobile-admin-tab-content">
+              <div className="mobile-admin-section-header">
+                <h2 className="mobile-admin-section-title">
                   إدارة روابط شركات الاتصالات
                 </h2>
                 <Button
                   onClick={fetchTelecomLinks}
                   variant="outline"
-                  className="flex items-center gap-2 luxury-card"
+                  className="mobile-admin-button luxury-card"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="mobile-admin-icon" />
                   تحديث
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {telecomLinks.length > 0 ? (
                   telecomLinks.map((link) => (
                     <Card
@@ -893,8 +905,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </Card>
             </TabsContent>
 
-            <TabsContent value="analytics" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TabsContent value="analytics" className="mobile-admin-tab-content">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                 <Card className="luxury-card">
                   <CardHeader>
                     <CardTitle className="text-gradient">

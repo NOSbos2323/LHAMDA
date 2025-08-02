@@ -153,18 +153,20 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSave, onCancel }) => {
 
   return (
     <div className="bg-background">
-      <Card className="max-w-4xl mx-auto">
+      <Card className="max-w-4xl mx-auto mobile-container">
         <CardHeader>
-          <CardTitle className="text-center">
+          <CardTitle className="text-center text-lg sm:text-xl md:text-2xl">
             {car ? "تعديل بيانات السيارة" : "إضافة سيارة جديدة"}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <CardContent className="px-3 sm:px-6">
+          <form onSubmit={handleSubmit} className="mobile-form">
+            <div className="mobile-form-section">
               {/* Basic Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">المعلومات الأساسية</h3>
+              <div className="space-y-3 sm:space-y-4">
+                <h3 className="text-base sm:text-lg font-semibold">
+                  المعلومات الأساسية
+                </h3>
 
                 <div className="space-y-2">
                   <Label htmlFor="make">الماركة *</Label>
@@ -173,7 +175,7 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSave, onCancel }) => {
                     value={formData.make}
                     onChange={(e) => handleInputChange("make", e.target.value)}
                     placeholder="مثال: تويوتا، هوندا، نيسان"
-                    className={errors.make ? "border-red-500" : ""}
+                    className={`mobile-input ${errors.make ? "border-red-500" : ""}`}
                   />
                   {errors.make && (
                     <p className="text-sm text-red-500">{errors.make}</p>
@@ -231,8 +233,10 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSave, onCancel }) => {
               </div>
 
               {/* Technical Specifications */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">المواصفات التقنية</h3>
+              <div className="space-y-3 sm:space-y-4">
+                <h3 className="text-base sm:text-lg font-semibold">
+                  المواصفات التقنية
+                </h3>
 
                 <div className="space-y-2">
                   <Label htmlFor="transmission">ناقل الحركة</Label>
@@ -325,8 +329,8 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSave, onCancel }) => {
             </div>
 
             {/* Image */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">الصورة</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-base sm:text-lg font-semibold">الصورة</h3>
               <div className="space-y-2">
                 <Label htmlFor="image">رابط الصورة *</Label>
                 <Input
@@ -364,14 +368,19 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSave, onCancel }) => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-end gap-4 pt-6 border-t">
-              <Button type="button" variant="outline" onClick={onCancel}>
+            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                className="mobile-button"
+              >
                 <X className="h-4 w-4 ml-2" />
                 إلغاء
               </Button>
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                className="mobile-button bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
               >
                 <Save className="h-4 w-4 ml-2" />
                 {car ? "حفظ التعديلات" : "إضافة السيارة"}

@@ -359,20 +359,20 @@ const CarListingGrid = ({ cars = [] }: CarListingGridProps) => {
   };
 
   return (
-    <div className="bg-background w-full max-w-7xl mx-auto p-4">
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="bg-background w-full max-w-7xl mx-auto mobile-container">
+      <div className="flex flex-col md:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
         <div className="flex-1 relative">
           <Input
             placeholder="ابحث عن الماركة أو الموديل..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 text-right"
+            className="pl-10 text-right mobile-input"
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         </div>
         <Button
           variant="outline"
-          className="md:w-auto flex items-center gap-2 luxury-card"
+          className="mobile-filter-toggle flex items-center gap-2 luxury-card mobile-button"
           onClick={toggleFilter}
         >
           <SlidersHorizontal className="h-4 w-4" />
@@ -381,13 +381,15 @@ const CarListingGrid = ({ cars = [] }: CarListingGridProps) => {
         </Button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
         {/* Filter sidebar */}
         {isFilterOpen && (
-          <div className="w-full lg:w-64 luxury-card rounded-lg p-4 h-fit">
-            <h3 className="font-medium text-lg mb-4">الفلاتر</h3>
+          <div className="mobile-filter-sidebar luxury-card rounded-lg p-3 sm:p-4 h-fit">
+            <h3 className="font-medium text-base sm:text-lg mb-3 sm:mb-4">
+              الفلاتر
+            </h3>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Price Range Filter */}
               <div>
                 <h4 className="font-medium mb-2">نطاق السعر</h4>
@@ -463,7 +465,7 @@ const CarListingGrid = ({ cars = [] }: CarListingGridProps) => {
                 </div>
               </div>
 
-              <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
+              <Button className="w-full mobile-button bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
                 تطبيق الفلاتر
               </Button>
             </div>
@@ -473,17 +475,21 @@ const CarListingGrid = ({ cars = [] }: CarListingGridProps) => {
         {/* Car grid */}
         <div className="flex-1">
           {isLoading ? (
-            <div className="text-center py-12 luxury-card rounded-lg">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <h3 className="text-xl font-medium">جاري تحميل السيارات...</h3>
+            <div className="text-center py-8 sm:py-12 luxury-card rounded-lg">
+              <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-primary mx-auto mb-3 sm:mb-4"></div>
+              <h3 className="text-lg sm:text-xl font-medium">
+                جاري تحميل السيارات...
+              </h3>
             </div>
           ) : filteredCars.length === 0 ? (
-            <div className="text-center py-12 luxury-card rounded-lg">
-              <h3 className="text-xl font-medium">لم يتم العثور على سيارات</h3>
+            <div className="text-center py-8 sm:py-12 luxury-card rounded-lg">
+              <h3 className="text-lg sm:text-xl font-medium">
+                لم يتم العثور على سيارات
+              </h3>
               <p className="text-muted-foreground mt-2">جرب تعديل الفلاتر</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mobile-grid">
               {filteredCars.map((car) => (
                 <CarCard
                   key={car.id}

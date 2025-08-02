@@ -128,8 +128,8 @@ const CarCard = ({
 
   return (
     <>
-      <Card className="w-[350px] h-[420px] overflow-hidden transition-all duration-300 hover:shadow-2xl luxury-card animate-fade-in group">
-        <div className="relative h-[220px] overflow-hidden">
+      <Card className="mobile-card w-full sm:w-[350px] h-[380px] sm:h-[420px] overflow-hidden transition-all duration-300 hover:shadow-2xl luxury-card animate-fade-in group">
+        <div className="relative h-[200px] sm:h-[220px] overflow-hidden">
           <img
             src={image}
             alt={`${make} ${model}`}
@@ -156,47 +156,50 @@ const CarCard = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
-        <CardContent className="pt-4">
+        <CardContent className="pt-3 sm:pt-4 px-3 sm:px-6">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-bold text-lg">
+              <h3 className="font-bold text-base sm:text-lg">
                 {make} {model}
               </h3>
-              <p className="text-2xl font-semibold text-primary mt-1">
+              <p className="text-xl sm:text-2xl font-semibold text-primary mt-1">
                 {formatPrice(price)}
               </p>
             </div>
             <div className="text-left">
-              <p className="text-sm text-muted-foreground">الدفع الشهري</p>
-              <p className="font-semibold text-lg text-accent">
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                الدفع الشهري
+              </p>
+              <p className="font-semibold text-base sm:text-lg text-accent">
                 {formatPrice(monthlyPayment)}
               </p>
             </div>
           </div>
         </CardContent>
 
-        <CardFooter className="flex justify-between pt-0">
+        <CardFooter className="flex justify-between pt-0 px-3 sm:px-6 pb-3 sm:pb-6">
           <Button
             variant="default"
-            className="flex-1 ml-2 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+            className="flex-1 ml-2 mobile-button bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
             onClick={handleViewDetails}
           >
-            <Eye className="ml-2 h-4 w-4" /> عرض التفاصيل
+            <Eye className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm">عرض التفاصيل</span>
           </Button>
           <Button
             variant="outline"
             size="icon"
-            className="luxury-card"
+            className="luxury-card h-8 w-8 sm:h-10 sm:w-10"
             onClick={() => onShare(id)}
           >
-            <Share2 className="h-4 w-4" />
+            <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </CardFooter>
       </Card>
 
       {/* Account Creation Dialog */}
       <Dialog open={showAccountDialog} onOpenChange={setShowAccountDialog}>
-        <DialogContent className="sm:max-w-md bg-white">
+        <DialogContent className="mobile-dialog bg-white">
           <DialogHeader>
             <DialogTitle className="text-right text-xl font-bold text-primary">
               إنشاء حساب جديد
@@ -238,29 +241,14 @@ const CarCard = ({
                 placeholder="أدخل لقبك"
               />
             </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="phoneNumber"
-                className="text-right block font-medium"
-              >
-                رقم الهاتف *
-              </Label>
-              <Input
-                id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="text-right border-2 focus:border-primary transition-colors"
-                dir="rtl"
-                placeholder="+213 123 456 789"
-              />
-            </div>
+
             <Button
               onClick={handlePhoneConfirmation}
-              className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold py-3 mt-6"
-              disabled={!firstName || !lastName || !phoneNumber}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 mt-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              disabled={!firstName || !lastName}
             >
-              <Lock className="mr-2 h-4 w-4" />
-              تأكيد البيانات والمتابعة
+              <Lock className="mr-2 h-5 w-5" />
+              تأكيد رقم الهاتف
             </Button>
             <p className="text-xs text-muted-foreground text-center mt-4">
               سيتم استخدام هذه البيانات لإنشاء حسابك وإرسال تفاصيل السيارة
@@ -271,14 +259,11 @@ const CarCard = ({
 
       {/* Payment Method Dialog */}
       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-        <DialogContent className="sm:max-w-md bg-white">
+        <DialogContent className="mobile-dialog bg-white">
           <DialogHeader>
             <DialogTitle className="text-right text-xl font-bold text-primary">
-              اختر طريقة الدفع
+              يرجى تأكيد رقم الهاتف
             </DialogTitle>
-            <DialogDescription className="text-right text-muted-foreground">
-              يرجى اختيار طريقة الدفع المفضلة لديك من شركات الاتصالات المتاحة
-            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 mt-6">
             {telecomLinks.length > 0 ? (

@@ -2,13 +2,192 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <link rel="icon" type="image/svg+xml" href="/car-logo.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Car Marketplace - Buy & Sell Cars</title>
   </head>
   <body>
+    <!-- TikTok Browser Detection Overlay -->
+    <div
+      id="tiktok-overlay"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 10000;
+        color: white;
+        font-family: &quot;Cairo&quot;, sans-serif;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          padding: 20px;
+          text-align: center;
+        "
+      >
+        <div
+          style="
+            background: linear-gradient(
+              135deg,
+              #22c55e 0%,
+              #16a34a 25%,
+              #15803d 50%,
+              #166534 75%,
+              #14532d 100%
+            );
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div style="font-size: 48px; margin-bottom: 20px">🚗</div>
+          <h2
+            style="
+              font-size: 24px;
+              font-weight: bold;
+              margin-bottom: 15px;
+              color: white;
+            "
+          >
+            تمويل السيارات
+          </h2>
+          <p
+            style="
+              font-size: 16px;
+              margin-bottom: 30px;
+              color: rgba(255, 255, 255, 0.9);
+              line-height: 1.5;
+            "
+          >
+            للحصول على أفضل تجربة، يرجى فتح الموقع في متصفح جوجل كروم
+          </p>
+          <button
+            id="open-in-chrome"
+            style="
+              background: white;
+              color: #16a34a;
+              border: none;
+              padding: 15px 30px;
+              border-radius: 10px;
+              font-size: 18px;
+              font-weight: bold;
+              cursor: pointer;
+              width: 100%;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            "
+          >
+            فتح في جوجل كروم
+          </button>
+          <p
+            style="
+              font-size: 12px;
+              margin-top: 15px;
+              color: rgba(255, 255, 255, 0.7);
+            "
+          >
+            انقر على الزر أعلاه لفتح الموقع في متصفح كروم
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script src="https://api.tempolabs.ai/proxy-asset?url=https://storage.googleapis.com/tempo-public-assets/error-handling.js"></script>
+
+    <!-- TikTok Browser Detection Script -->
+    <script>
+      (function () {
+        // Function to detect TikTok in-app browser
+        function isTikTokBrowser() {
+          const userAgent = navigator.userAgent.toLowerCase();
+          return (
+            userAgent.includes("tiktok") ||
+            userAgent.includes("musical_ly") ||
+            userAgent.includes("bytedance")
+          );
+        }
+
+        // Function to detect mobile device
+        function isMobile() {
+          return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          );
+        }
+
+        // Show overlay if TikTok browser is detected
+        if (isTikTokBrowser() && isMobile()) {
+          const overlay = document.getElementById("tiktok-overlay");
+          const openButton = document.getElementById("open-in-chrome");
+          const rootElement = document.getElementById("root");
+
+          // Hide the main app and show overlay
+          overlay.style.display = "block";
+          rootElement.style.display = "none";
+
+          // Add click event to open in Chrome
+          openButton.addEventListener("click", function () {
+            const currentUrl = window.location.href;
+
+            // Try different methods to open in Chrome
+            // Method 1: Try Chrome intent (Android)
+            if (navigator.userAgent.includes("Android")) {
+              window.location.href =
+                "googlechrome://navigate?url=" + encodeURIComponent(currentUrl);
+
+              // Fallback: Try intent URL
+              setTimeout(function () {
+                window.location.href =
+                  "intent://" +
+                  currentUrl.replace(/https?:\/\//, "") +
+                  "#Intent;scheme=https;package=com.android.chrome;end";
+              }, 500);
+            }
+            // Method 2: For iOS devices
+            else if (
+              navigator.userAgent.includes("iPhone") ||
+              navigator.userAgent.includes("iPad")
+            ) {
+              window.location.href =
+                "googlechrome://" + currentUrl.replace(/https?:\/\//, "");
+
+              // Fallback to Safari if Chrome is not installed
+              setTimeout(function () {
+                window.location.href = currentUrl;
+              }, 1000);
+            }
+            // Method 3: Generic fallback
+            else {
+              window.open(currentUrl, "_blank");
+            }
+          });
+
+          // Add hover effect to button
+          openButton.addEventListener("mouseenter", function () {
+            this.style.transform = "scale(1.05)";
+            this.style.boxShadow = "0 6px 20px rgba(255, 255, 255, 0.3)";
+          });
+
+          openButton.addEventListener("mouseleave", function () {
+            this.style.transform = "scale(1)";
+            this.style.boxShadow = "0 4px 15px rgba(255, 255, 255, 0.2)";
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

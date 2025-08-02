@@ -40,6 +40,7 @@ interface Car {
 const Home = () => {
   const [telecomLinks, setTelecomLinks] = useState<TelecomLink[]>([]);
   const [featuredCars, setFeaturedCars] = useState<Car[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Fetch telecom links from database
   const fetchTelecomLinks = async () => {
@@ -117,90 +118,148 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dark">
       {/* Header/Navigation */}
-      <header className="border-b bg-white sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link to="/" className="text-2xl font-bold text-gradient">
-              تمويل السيارات
-            </Link>
-            <nav className="hidden md:flex items-center space-x-6 space-x-reverse">
+      <header className="border-b bg-dark-900 border-dark-700 sticky top-0 z-50">
+        <div className="mobile-container mobile-header">
+          <div className="mobile-nav">
+            <div className="flex items-center gap-4 sm:gap-8">
+              <Link
+                to="/"
+                className="text-lg sm:text-xl md:text-2xl font-bold text-gradient"
+              >
+                تمويل السيارات
+              </Link>
+              <nav className="mobile-nav-menu">
+                <Link
+                  to="/cars"
+                  className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+                >
+                  تصفح السيارات
+                </Link>
+                <Link
+                  to="/financing"
+                  className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+                >
+                  خيارات التمويل
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+                >
+                  من نحن
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+                >
+                  اتصل بنا
+                </Link>
+              </nav>
+            </div>
+
+            <div className="mobile-nav-actions">
+              <Button variant="ghost" size="icon" className="hidden md:flex">
+                <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="hidden md:flex">
+                <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+
+              {/* Single Login Button - Responsive */}
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 px-3 py-2 sm:px-5 sm:py-3 text-sm sm:text-base font-medium rounded-lg luxury-card shadow-lg hover:shadow-xl"
+                onClick={() => (window.location.href = "/admin-login")}
+              >
+                <User className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">تسجيل الدخول</span>
+                <span className="sm:hidden">دخول</span>
+              </Button>
+
+              <button
+                className="mobile-hamburger"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <span
+                  className={`${isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                ></span>
+                <span
+                  className={`${isMobileMenuOpen ? "opacity-0" : ""}`}
+                ></span>
+                <span
+                  className={`${isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                ></span>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="mobile-menu bg-dark-800 border-dark-700">
               <Link
                 to="/cars"
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className="mobile-menu-item text-white hover:bg-dark-700"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 تصفح السيارات
               </Link>
               <Link
                 to="/financing"
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className="mobile-menu-item text-white hover:bg-dark-700"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 خيارات التمويل
               </Link>
               <Link
                 to="/about"
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className="mobile-menu-item text-white hover:bg-dark-700"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 من نحن
               </Link>
               <Link
                 to="/contact"
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className="mobile-menu-item text-white hover:bg-dark-700"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 اتصل بنا
               </Link>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Globe className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Heart className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="outline"
-              className="hidden md:flex gap-2 luxury-card"
-              onClick={() => (window.location.href = "/admin-login")}
-            >
-              <User className="h-4 w-4" />
-              <span>تسجيل الدخول</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </div>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative gradient-bg py-16 md:py-24 overflow-hidden">
+      <section className="relative gradient-bg mobile-hero overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-10">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white animate-fade-in">
+        <div className="mobile-container relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
+            <h1 className="mobile-hero-title text-white animate-fade-in drop-shadow-lg">
               اعثر على سيارة أحلامك بأقساط ميسرة
             </h1>
-            <p className="text-lg text-white/90 mb-8 animate-fade-in">
+            <p className="mobile-hero-subtitle text-white/95 animate-fade-in drop-shadow-md max-w-3xl mx-auto">
               تصفح مجموعتنا الواسعة من المركبات المتاحة مع خيارات تمويل مرنة في
               الجزائر
             </p>
           </div>
 
           {/* Search and Filter */}
-          <div className="max-w-4xl mx-auto luxury-card rounded-xl p-6 animate-slide-up">
+          <div className="max-w-4xl mx-auto luxury-card mobile-search-card animate-slide-up">
             <Tabs defaultValue="search" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="search">البحث عن السيارات</TabsTrigger>
-                <TabsTrigger value="calculator">حاسبة الأقساط</TabsTrigger>
+              <TabsList className="mobile-tabs mb-4 sm:mb-6">
+                <TabsTrigger value="search" className="text-xs sm:text-sm">
+                  البحث عن السيارات
+                </TabsTrigger>
+                <TabsTrigger value="calculator" className="text-xs sm:text-sm">
+                  حاسبة الأقساط
+                </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="search" className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <TabsContent value="search" className="space-y-3 sm:space-y-4">
+                <div className="mobile-form-grid">
                   <Select>
-                    <SelectTrigger>
+                    <SelectTrigger className="mobile-input">
                       <SelectValue placeholder="الماركة" />
                     </SelectTrigger>
                     <SelectContent>
@@ -216,7 +275,7 @@ const Home = () => {
                   </Select>
 
                   <Select>
-                    <SelectTrigger>
+                    <SelectTrigger className="mobile-input">
                       <SelectValue placeholder="الموديل" />
                     </SelectTrigger>
                     <SelectContent>
@@ -229,7 +288,7 @@ const Home = () => {
                   </Select>
 
                   <Select>
-                    <SelectTrigger>
+                    <SelectTrigger className="mobile-input">
                       <SelectValue placeholder="نطاق السعر" />
                     </SelectTrigger>
                     <SelectContent>
@@ -247,7 +306,7 @@ const Home = () => {
                   </Select>
 
                   <Select>
-                    <SelectTrigger>
+                    <SelectTrigger className="mobile-input">
                       <SelectValue placeholder="مدة التقسيط" />
                     </SelectTrigger>
                     <SelectContent>
@@ -261,14 +320,17 @@ const Home = () => {
                 </div>
 
                 <div className="flex">
-                  <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
+                  <Button className="w-full mobile-button bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
                     البحث عن السيارات
                   </Button>
                 </div>
               </TabsContent>
 
-              <TabsContent value="calculator" className="space-y-6">
-                <div className="space-y-4">
+              <TabsContent
+                value="calculator"
+                className="space-y-4 sm:space-y-6"
+              >
+                <div className="space-y-3 sm:space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       سعر المركبة
@@ -277,7 +339,7 @@ const Home = () => {
                       type="number"
                       placeholder="أدخل سعر المركبة"
                       defaultValue="3500000"
-                      className="text-right"
+                      className="text-right mobile-input"
                     />
                   </div>
 
@@ -322,18 +384,18 @@ const Home = () => {
       </section>
 
       {/* Best Selling Fiat Cars Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">
+      <section className="mobile-section bg-muted/30">
+        <div className="mobile-container">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="mobile-section-title text-gradient">
               السيارات الأكثر مبيعاً في الجزائر - فيات
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
               اكتشف مجموعة فيات المتميزة والأكثر طلباً في السوق الجزائري
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="mobile-grid mb-12 sm:mb-16">
             {featuredCars.length > 0 ? (
               featuredCars
                 .slice(0, 6)
@@ -413,7 +475,7 @@ const Home = () => {
           <div className="text-center">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3"
+              className="mobile-button bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
             >
               عرض جميع سيارات فيات
             </Button>
@@ -422,15 +484,15 @@ const Home = () => {
       </section>
 
       {/* Featured Cars Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gradient">
+      <section className="mobile-section">
+        <div className="mobile-container">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-0">
+            <h2 className="mobile-section-title mb-0 text-gradient">
               المركبات المميزة
             </h2>
             <Link
               to="/cars"
-              className="text-primary hover:underline flex items-center transition-colors"
+              className="text-primary hover:underline flex items-center transition-colors text-sm sm:text-base"
             >
               عرض الكل <ChevronDown className="h-4 w-4 mr-1 rotate-90" />
             </Link>
@@ -441,13 +503,13 @@ const Home = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 bg-gradient-to-br from-luxury-50 to-luxury-100">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-gradient">
+      <section className="mobile-section bg-gradient-to-br from-luxury-50 to-luxury-100">
+        <div className="mobile-container">
+          <h2 className="mobile-section-title text-center text-gradient">
             كيف يعمل التمويل
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mobile-grid">
             <div className="luxury-card p-6 rounded-xl text-center animate-fade-in">
               <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search className="h-8 w-8 text-white" />
@@ -509,13 +571,13 @@ const Home = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-gradient">
+      <section className="mobile-section">
+        <div className="mobile-container">
+          <h2 className="mobile-section-title text-center text-gradient">
             ماذا يقول عملاؤنا
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mobile-grid">
             <div className="luxury-card p-6 rounded-xl animate-fade-in">
               <div className="flex items-center mb-4">
                 <div className="h-12 w-12 rounded-full overflow-hidden ml-4">
@@ -616,28 +678,28 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 gradient-bg text-white relative overflow-hidden">
+      <section className="mobile-section gradient-bg text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+        <div className="mobile-container text-center relative z-10">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
             هل أنت مستعد للعثور على سيارة أحلامك؟
           </h2>
-          <p className="text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto">
             تصفح مجموعتنا الواسعة من المركبات واعثر على المطابقة المثالية مع خطط
             أقساط ميسرة.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button
               variant="secondary"
               size="lg"
-              className="bg-white text-primary hover:bg-white/90"
+              className="mobile-button bg-white text-primary hover:bg-white/90"
             >
               تصفح السيارات
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="bg-transparent border-white text-white hover:bg-white/10"
+              className="mobile-button bg-transparent border-white text-white hover:bg-white/10"
             >
               اتصل بنا
             </Button>
@@ -646,9 +708,9 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-luxury-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer className="bg-luxury-900 text-white py-8 sm:py-12">
+        <div className="mobile-container">
+          <div className="mobile-footer">
             <div>
               <h3 className="text-lg font-bold mb-4 text-gradient">
                 تمويل السيارات

@@ -79,18 +79,18 @@ const InstallmentCalculator = ({
   };
 
   return (
-    <Card className="w-full max-w-md bg-white shadow-lg">
-      <CardHeader className="bg-primary/5">
-        <CardTitle className="flex items-center gap-2 text-xl">
-          <Calculator className="h-5 w-5" />
+    <Card className="mobile-calculator bg-white shadow-lg">
+      <CardHeader className="bg-primary/5 px-3 sm:px-6 py-3 sm:py-6">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <Calculator className="h-4 w-4 sm:h-5 sm:w-5" />
           Installment Calculator
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-sm sm:text-base">
           Adjust the values to calculate your monthly payments
         </CardDescription>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="space-y-6">
+      <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Down Payment Section */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -114,7 +114,7 @@ const InstallmentCalculator = ({
               type="number"
               value={downPayment}
               onChange={handleDownPaymentInputChange}
-              className="mt-2"
+              className="mt-2 mobile-input"
             />
           </div>
 
@@ -165,11 +165,11 @@ const InstallmentCalculator = ({
           <Button
             variant="outline"
             size="sm"
-            className="w-full"
+            className="w-full mobile-button"
             onClick={handleReset}
           >
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Reset to Default
+            <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm">Reset to Default</span>
           </Button>
         </div>
       </CardContent>

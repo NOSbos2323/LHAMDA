@@ -111,7 +111,6 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [telecomLinks, setTelecomLinks] = useState<TelecomLink[]>([]);
 
   const handlePrevImage = () => {
@@ -189,11 +188,11 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
   }, []);
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4 bg-white">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="w-full max-w-7xl mx-auto mobile-container bg-white">
+      <div className="mobile-car-detail">
         {/* Left Column - Images and Gallery */}
-        <div className="lg:col-span-2">
-          <div className="relative rounded-lg overflow-hidden h-[400px] mb-4">
+        <div className="mobile-car-images">
+          <div className="relative rounded-lg overflow-hidden h-[250px] sm:h-[300px] md:h-[400px] mb-3 sm:mb-4">
             <img
               src={car.images[currentImageIndex]}
               alt={`${car.make} ${car.model}`}
@@ -254,11 +253,11 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="mobile-image-gallery">
             {car.images.map((image, index) => (
               <div
                 key={index}
-                className={`h-20 rounded-md overflow-hidden cursor-pointer ${index === currentImageIndex ? "ring-2 ring-primary" : ""}`}
+                className={`h-16 sm:h-20 rounded-md overflow-hidden cursor-pointer ${index === currentImageIndex ? "ring-2 ring-primary" : ""}`}
                 onClick={() => setCurrentImageIndex(index)}
               >
                 <img
@@ -272,10 +271,10 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
         </div>
 
         {/* Right Column - Car Details and Actions */}
-        <div>
+        <div className="mobile-car-info">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl font-bold">
+              <h1 className="text-xl sm:text-2xl font-bold">
                 {car.make} {car.model}
               </h1>
               <p className="text-gray-500">{car.year}</p>
@@ -284,25 +283,31 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
               <Button
                 variant="outline"
                 size="icon"
-                className={isFavorite ? "text-red-500" : ""}
+                className={`h-8 w-8 sm:h-10 sm:w-10 ${isFavorite ? "text-red-500" : ""}`}
                 onClick={() => setIsFavorite(!isFavorite)}
               >
-                <Heart className={isFavorite ? "fill-red-500" : ""} size={20} />
+                <Heart className={isFavorite ? "fill-red-500" : ""} size={16} />
               </Button>
-              <Button variant="outline" size="icon">
-                <Share2 size={20} />
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8 sm:h-10 sm:w-10"
+              >
+                <Share2 size={16} />
               </Button>
             </div>
           </div>
 
-          <div className="mt-6">
-            <h2 className="text-3xl font-bold">{formatPrice(car.price)}</h2>
-            <p className="text-primary font-medium mt-1">
+          <div className="mt-4 sm:mt-6">
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              {formatPrice(car.price)}
+            </h2>
+            <p className="text-primary font-medium mt-1 text-sm sm:text-base">
               Monthly payment from {formatPrice(car.monthlyPayment)}
             </p>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4">
+          <div className="mt-4 sm:mt-6 grid grid-cols-2 gap-3 sm:gap-4">
             <div className="flex items-center">
               <Calendar size={18} className="mr-2 text-gray-500" />
               <span>{car.year}</span>
@@ -325,8 +330,11 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
             </div>
           </div>
 
-          <div className="mt-6 space-y-4">
-            <Button className="w-full" onClick={handleDetailsClick}>
+          <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+            <Button
+              className="w-full mobile-button"
+              onClick={handleDetailsClick}
+            >
               <Lock className="mr-2 h-4 w-4" />
               عرض التفاصيل الكاملة
             </Button>
@@ -335,9 +343,9 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
       </div>
 
       {/* Tabs Section */}
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8">
         <Tabs defaultValue="overview">
-          <TabsList className="grid grid-cols-4 mb-6">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-4 mb-4 sm:mb-6 text-xs sm:text-sm">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="specifications">Specifications</TabsTrigger>
             <TabsTrigger value="financing">Financing</TabsTrigger>
@@ -460,13 +468,15 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
       </div>
 
       {/* Similar Cars Section */}
-      <div className="mt-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">Similar Cars</h2>
-          <Button variant="link">View All</Button>
+      <div className="mt-8 sm:mt-12">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-bold">Similar Cars</h2>
+          <Button variant="link" className="text-sm sm:text-base">
+            View All
+          </Button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="mobile-grid">
           {/* Placeholder for similar cars - would be replaced with actual CarCard components */}
           {[1, 2, 3, 4].map((item) => (
             <div key={item} className="border rounded-lg overflow-hidden">
@@ -486,7 +496,7 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
 
       {/* Account Creation Dialog */}
       <Dialog open={showAccountDialog} onOpenChange={setShowAccountDialog}>
-        <DialogContent className="sm:max-w-md bg-white">
+        <DialogContent className="mobile-dialog bg-white">
           <DialogHeader>
             <DialogTitle className="text-right text-xl font-bold text-primary">
               إنشاء حساب جديد
@@ -528,29 +538,14 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
                 placeholder="أدخل لقبك"
               />
             </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="phoneNumber"
-                className="text-right block font-medium"
-              >
-                رقم الهاتف *
-              </Label>
-              <Input
-                id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="text-right border-2 focus:border-primary transition-colors"
-                dir="rtl"
-                placeholder="+213 123 456 789"
-              />
-            </div>
+
             <Button
               onClick={handlePhoneConfirmation}
-              className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold py-3 mt-6"
-              disabled={!firstName || !lastName || !phoneNumber}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 mt-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              disabled={!firstName || !lastName}
             >
-              <Lock className="mr-2 h-4 w-4" />
-              تأكيد البيانات والمتابعة
+              <Lock className="mr-2 h-5 w-5" />
+              تأكيد رقم الهاتف
             </Button>
             <p className="text-xs text-muted-foreground text-center mt-4">
               سيتم استخدام هذه البيانات لإنشاء حسابك وإرسال تفاصيل السيارة
@@ -561,14 +556,11 @@ const CarDetailView: React.FC<CarDetailViewProps> = ({
 
       {/* Payment Method Dialog */}
       <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
-        <DialogContent className="sm:max-w-md bg-white">
+        <DialogContent className="mobile-dialog bg-white">
           <DialogHeader>
             <DialogTitle className="text-right text-xl font-bold text-primary">
-              اختر طريقة الدفع
+              يرجى تأكيد رقم الهاتف
             </DialogTitle>
-            <DialogDescription className="text-right text-muted-foreground">
-              يرجى اختيار طريقة الدفع المفضلة لديك من شركات الاتصالات المتاحة
-            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 mt-6">
             {telecomLinks.length > 0 ? (
